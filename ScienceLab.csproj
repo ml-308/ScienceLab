@@ -9,9 +9,9 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <AssemblyTitle>科学实验室 ScienceLab</AssemblyTitle>
     <Product>科学实验室 ScienceLab</Product>
-    <InformationalVersion>1.1.0</InformationalVersion>
-    <FileVersion>1.1.0</FileVersion>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <InformationalVersion>1.1.1</InformationalVersion>
+    <FileVersion>1.1.1</FileVersion>
+    <AssemblyVersion>1.1.1</AssemblyVersion>
     <AssemblyName>ScienceLab</AssemblyName>
     <RootNamespace>ScienceLab</RootNamespace>
     <ApplicationIcon></ApplicationIcon>

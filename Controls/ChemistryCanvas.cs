@@ -161,10 +161,15 @@ public class ChemistryCanvas : Canvas
 
         dc.DrawRectangle(new SolidColorBrush(GetColor("BgBrush")), null, new Rect(0, 0, w, h));
 
-        // 实验台面
-        var tableBrush = new SolidColorBrush(SurfaceColor);
-        var tablePen = new Pen(new SolidColorBrush(BorderColor), 1.5);
-        dc.DrawRoundedRectangle(tableBrush, tablePen, new Rect(40, 460, w - 80, h - 480), 10, 10);
+        // 实验台面（画布过矮时钳制尺寸，避免负宽高抛异常）
+        double tableW = Math.Max(0, w - 80);
+        double tableH = Math.Max(0, h - 480);
+        if (tableW > 0 && tableH > 0)
+        {
+            var tableBrush = new SolidColorBrush(SurfaceColor);
+            var tablePen = new Pen(new SolidColorBrush(BorderColor), 1.5);
+            dc.DrawRoundedRectangle(tableBrush, tablePen, new Rect(40, 460, tableW, tableH), 10, 10);
+        }
 
         foreach (var c in Containers)
             DrawContainer(dc, c);

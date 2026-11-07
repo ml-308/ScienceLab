@@ -22,9 +22,11 @@ public partial class PhysicsView : UserControl
         Canvas.Gravity = 9.8;
     }
 
+    // XAML 解析期间 Slider.Minimum 会触发 ValueChanged，此时命名控件尚未赋值，
+    // 必须对全部引用做判空，否则打开物理实验室即崩溃。
     private void OnAngleChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        if (Canvas == null) return;
+        if (Canvas == null || AngleText == null) return;
         Canvas.AngleDeg = e.NewValue;
         AngleText.Text = $"{e.NewValue:0}°";
         ResetState();
@@ -32,7 +34,7 @@ public partial class PhysicsView : UserControl
 
     private void OnMassChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        if (Canvas == null) return;
+        if (Canvas == null || MassText == null) return;
         Canvas.Mass = e.NewValue;
         MassText.Text = $"{e.NewValue:0.0} kg";
         ResetState();
@@ -40,7 +42,7 @@ public partial class PhysicsView : UserControl
 
     private void OnMuChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        if (Canvas == null) return;
+        if (Canvas == null || MuText == null) return;
         Canvas.Mu = e.NewValue;
         MuText.Text = $"{e.NewValue:0.00}";
         ResetState();
@@ -48,13 +50,13 @@ public partial class PhysicsView : UserControl
 
     private void OnV0Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        if (Canvas == null) return;
+        if (V0Text == null) return;
         V0Text.Text = $"{e.NewValue:0.0} m/s";
     }
 
     private void OnStartPosChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        if (Canvas == null) return;
+        if (StartPosText == null) return;
         StartPosText.Text = $"{e.NewValue:0.0} m";
     }
 
@@ -62,7 +64,7 @@ public partial class PhysicsView : UserControl
     {
         ApplyParameters();
         Canvas.Reset(StartPosSlider.Value, V0Slider.Value);
-        PlayBtn.Content = "▶ 播放";
+        if (PlayBtn != null) PlayBtn.Content = "▶ 播放";
     }
 
     private void OnPlayPause(object sender, RoutedEventArgs e)

@@ -39,6 +39,8 @@ public partial class MathView : UserControl
 
     private void OnPresetSelected(object sender, SelectionChangedEventArgs e)
     {
+        // XAML 解析期间 ComboBox 生成列表项就会触发本事件，此时 FuncInput 可能未赋值
+        if (PresetBox == null || FuncInput == null) return;
         if (PresetBox.SelectedItem is ComboBoxItem item && item.Tag is string expr)
             FuncInput.Text = expr;
     }

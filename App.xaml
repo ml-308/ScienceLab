@@ -22,18 +22,13 @@
             <SolidColorBrush x:Key="AccentRedBrush" Color="#F0645C" />
             <SolidColorBrush x:Key="AccentPurpleBrush" Color="#A78BFA" />
 
-            <!-- ============ 卡片样式（大圆角 + 极淡边框 + 柔和阴影） ============ -->
+            <!-- ============ 卡片样式（大圆角 + 极淡边框；不用 DropShadowEffect，特效会显著拖慢渲染） ============ -->
             <Style x:Key="Card" TargetType="Border">
                 <Setter Property="Background" Value="{DynamicResource SurfaceBrush}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
                 <Setter Property="BorderThickness" Value="1" />
                 <Setter Property="CornerRadius" Value="16" />
                 <Setter Property="Padding" Value="18" />
-                <Setter Property="Effect">
-                    <Setter.Value>
-                        <DropShadowEffect BlurRadius="24" ShadowDepth="3" Opacity="0.18" Color="#000000" />
-                    </Setter.Value>
-                </Setter>
             </Style>
 
             <!-- ============ 导航项样式（图标式，选中高亮品牌蓝） ============ -->
