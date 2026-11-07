@@ -1,0 +1,89 @@
+<UserControl x:Class="ScienceLab.Views.MathView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:ScienceLab.Controls">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
+
+        <!-- 坐标系画布 -->
+        <controls:CoordinateCanvas x:Name="Canvas" Grid.Column="0" />
+
+        <!-- 右侧控制面板 -->
+        <Border Grid.Column="1" Background="{DynamicResource SurfaceBrush}"
+                BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1,0,0,0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="16">
+                    <TextBlock Text="函数绘图" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" />
+                    <TextBlock Text="输入 y = f(x)，例如 x^2、sin(x)、2*x+1" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,4,0,14" TextWrapping="Wrap" />
+
+                    <!-- 输入行 -->
+                    <TextBlock Text="自定义函数" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,6" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="FuncInput" KeyDown="OnInputKeyDown"
+                                 Text="x^2" FontSize="14" />
+                        <Button Grid.Column="1" Content="绘制" Style="{StaticResource PrimaryButton}"
+                                Margin="8,0,0,0" Click="OnAddFunction" />
+                    </Grid>
+
+                    <!-- 预设函数 -->
+                    <TextBlock Text="预设函数" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,16,0,6" />
+                    <ComboBox x:Name="PresetBox" SelectionChanged="OnPresetSelected">
+                        <ComboBoxItem Content="y = x²" Tag="x^2" />
+                        <ComboBoxItem Content="y = 2x + 1" Tag="2*x+1" />
+                        <ComboBoxItem Content="y = sin(x)" Tag="sin(x)" />
+                        <ComboBoxItem Content="y = cos(x)" Tag="cos(x)" />
+                        <ComboBoxItem Content="y = tan(x)" Tag="tan(x)" />
+                        <ComboBoxItem Content="y = 1/x" Tag="1/x" />
+                        <ComboBoxItem Content="y = sqrt(x)" Tag="sqrt(x)" />
+                        <ComboBoxItem Content="y = x³" Tag="x^3" />
+                        <ComboBoxItem Content="y = e^x" Tag="e^x" />
+                        <ComboBoxItem Content="y = ln(x)" Tag="ln(x)" />
+                        <ComboBoxItem Content="y = |x|" Tag="abs(x)" />
+                        <ComboBoxItem Content="y = -x² + 3x - 2" Tag="-x^2+3*x-2" />
+                        <ComboBoxItem Content="y = sin(x)/x" Tag="sin(x)/x" />
+                    </ComboBox>
+
+                    <!-- 工具按钮 -->
+                    <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                        <Button Content="🔄 重置视图" Style="{StaticResource SecondaryButton}" Click="OnReset" />
+                        <Button Content="🧹 清空" Style="{StaticResource SecondaryButton}" Margin="8,0,0,0" Click="OnClear" />
+                    </StackPanel>
+
+                    <!-- 函数列表 -->
+                    <TextBlock Text="已绘制函数" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,18,0,6" />
+                    <ItemsControl x:Name="FuncList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource Card}" Margin="0,0,0,8" Padding="12">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="14" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Grid.Column="0" Width="12" Height="12" VerticalAlignment="Center"
+                                                 Fill="{Binding Brush}" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Expression}" Margin="8,0,0,0"
+                                                   Foreground="{DynamicResource TextBrush}" FontSize="13" VerticalAlignment="Center" />
+                                        <Button Grid.Column="2" Content="✕" Style="{StaticResource SecondaryButton}"
+                                                Padding="8,3" Click="OnRemoveFunction" Tag="{Binding}" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <TextBlock Text="操作提示" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,12,0,4" />
+                    <TextBlock Text="· 滚轮缩放 · 左键拖拽平移" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" />
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl>

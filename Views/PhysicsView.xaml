@@ -1,0 +1,112 @@
+<UserControl x:Class="ScienceLab.Views.PhysicsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:ScienceLab.Controls">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="320" />
+        </Grid.ColumnDefinitions>
+
+        <!-- 仿真画布 -->
+        <controls:PhysicsCanvas x:Name="Canvas" Grid.Column="0" />
+
+        <!-- 右侧面板 -->
+        <Border Grid.Column="1" Background="{DynamicResource SurfaceBrush}"
+                BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1,0,0,0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="16">
+                    <TextBlock Text="斜面 · 小物块" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" />
+                    <TextBlock Text="调节参数后点击「重置并播放」观察运动" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,4,0,16" TextWrapping="Wrap" />
+
+                    <!-- 状态读数 -->
+                    <Border Style="{StaticResource Card}" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="物块实时状态" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" />
+                            <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="位移 s" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" />
+                                <TextBlock Grid.Row="0" Grid.Column="1" x:Name="PosText" Text="0.00 m" Foreground="{DynamicResource AccentOrangeBrush}" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right" />
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="速度 v" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" Margin="0,6,0,0" />
+                                <TextBlock Grid.Row="1" Grid.Column="1" x:Name="VelText" Text="0.00 m/s" Foreground="{DynamicResource PrimaryBrush}" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,6,0,0" />
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="加速度 a" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" Margin="0,6,0,0" />
+                                <TextBlock Grid.Row="2" Grid.Column="1" x:Name="AccText" Text="0.00 m/s²" Foreground="{DynamicResource AccentGreenBrush}" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,6,0,0" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- 参数调节 -->
+                    <TextBlock Text="参数设置" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" Margin="0,0,0,8" />
+
+                    <TextBlock Text="斜面倾角 θ" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <Slider x:Name="AngleSlider" Minimum="5" Maximum="60" Value="30" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="OnAngleChanged" />
+                        <TextBlock Grid.Column="1" x:Name="AngleText" Text="30°" HorizontalAlignment="Right" Foreground="{DynamicResource TextBrush}" FontSize="13" />
+                    </Grid>
+
+                    <TextBlock Text="质量 m" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,12,0,0" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <Slider x:Name="MassSlider" Minimum="0.5" Maximum="10" Value="2" TickFrequency="0.5" IsSnapToTickEnabled="True" ValueChanged="OnMassChanged" />
+                        <TextBlock Grid.Column="1" x:Name="MassText" Text="2.0 kg" HorizontalAlignment="Right" Foreground="{DynamicResource TextBrush}" FontSize="13" />
+                    </Grid>
+
+                    <TextBlock Text="摩擦系数 μ" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,12,0,0" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <Slider x:Name="MuSlider" Minimum="0" Maximum="1" Value="0.2" TickFrequency="0.05" ValueChanged="OnMuChanged" />
+                        <TextBlock Grid.Column="1" x:Name="MuText" Text="0.20" HorizontalAlignment="Right" Foreground="{DynamicResource TextBrush}" FontSize="13" />
+                    </Grid>
+
+                    <TextBlock Text="初始速度 v₀（沿斜面向上）" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,12,0,0" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <Slider x:Name="V0Slider" Minimum="0" Maximum="10" Value="0" TickFrequency="0.5" ValueChanged="OnV0Changed" />
+                        <TextBlock Grid.Column="1" x:Name="V0Text" Text="0.0 m/s" HorizontalAlignment="Right" Foreground="{DynamicResource TextBrush}" FontSize="13" />
+                    </Grid>
+
+                    <TextBlock Text="起始位置（距底端）" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,12,0,0" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <Slider x:Name="StartPosSlider" Minimum="0.5" Maximum="8" Value="3" TickFrequency="0.5" ValueChanged="OnStartPosChanged" />
+                        <TextBlock Grid.Column="1" x:Name="StartPosText" Text="3.0 m" HorizontalAlignment="Right" Foreground="{DynamicResource TextBrush}" FontSize="13" />
+                    </Grid>
+
+                    <!-- 控制按钮 -->
+                    <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
+                        <Button x:Name="PlayBtn" Content="▶ 播放" Style="{StaticResource PrimaryButton}" Click="OnPlayPause" Width="110" />
+                        <Button Content="↺ 重置" Style="{StaticResource SecondaryButton}" Margin="8,0,0,0" Click="OnReset" Width="90" />
+                    </StackPanel>
+
+                    <TextBlock Text="说明" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,16,0,4" />
+                    <TextBlock TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"
+                               Text="· 物块沿斜面运动，受重力 G、支持力 N、摩擦力 f&#x0a;· 加速度 a = g·sinθ - μg·cosθ（下滑）&#x0a;· 实时显示位移、速度、加速度&#x0a;· 到达底端或顶端自动停止" />
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl>

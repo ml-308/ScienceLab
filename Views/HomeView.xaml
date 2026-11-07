@@ -1,0 +1,47 @@
+<UserControl x:Class="ScienceLab.Views.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="40,32">
+
+            <!-- 欢迎区 -->
+            <TextBlock Text="开始你的探索" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" />
+            <TextBlock Text="选择一个工具模块，自由地进行数学、物理、化学的探索与实验。" FontSize="13"
+                       Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,6,0,0" />
+
+            <!-- 模块卡片 -->
+            <UniformGrid Columns="2" Margin="0,24,0,0">
+                <Border Style="{StaticResource Card}" Margin="0,0,12,12" Cursor="Hand" MouseLeftButtonDown="OpenMath">
+                    <StackPanel>
+                        <TextBlock Text="📐" FontSize="32" />
+                        <TextBlock Text="数学 · 坐标系" FontSize="17" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" Margin="0,12,0,0" />
+                        <TextBlock Text="自定义函数图像 · 自由缩放平移 · 测量工具" TextWrapping="Wrap" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,6,0,0" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="0,0,12,12" Cursor="Hand" MouseLeftButtonDown="OpenPhysics">
+                    <StackPanel>
+                        <TextBlock Text="⚙️" FontSize="32" />
+                        <TextBlock Text="物理实验室" FontSize="17" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" Margin="0,12,0,0" />
+                        <TextBlock Text="小物块 · 滑台/斜面 · 运动仿真 · 实时受力与状态" TextWrapping="Wrap" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,6,0,0" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="0,0,12,12" Cursor="Hand" MouseLeftButtonDown="OpenChemistry">
+                    <StackPanel>
+                        <TextBlock Text="⚗️" FontSize="32" />
+                        <TextBlock Text="化学实验室" FontSize="17" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" Margin="0,12,0,0" />
+                        <TextBlock Text="2D 自由实验室 · 混合试剂 · 反应可视化 · 元素周期表" TextWrapping="Wrap" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,6,0,0" />
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- 关于 -->
+            <Border Style="{StaticResource Card}" Margin="0,12,12,12" Padding="20">
+                <StackPanel>
+                    <TextBlock Text="关于「自由开放」" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" />
+                    <TextBlock TextWrapping="Wrap" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,8,0,0"
+                               Text="· 坐标系可自由缩放、平移、拖拽，支持任意自定义函数输入并即时绘制图像&#x0a;· 物理实验可自由调节角度、质量、摩擦系数等参数，实时观察物块运动与受力&#x0a;· 化学实验室可自由拖拽器材、混合任意试剂，观察反应现象&#x0a;· 架构模块化，工具可自由扩展" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
