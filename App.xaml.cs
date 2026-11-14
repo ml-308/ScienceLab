@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
@@ -18,6 +18,16 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+
+        // 「发现新版本」检查：命令行开关 + 无人值守 probe
+        UpdateKit.UpdateCheck.Configure(e.Args);
+        var probeExit = UpdateKit.UpdateCheck.TryProbe(e.Args);
+        if (probeExit.HasValue)
+        {
+            Shutdown(probeExit.Value);
+            return;
+        }
+
         try { Directory.CreateDirectory(LogDir); } catch { /* 忽略 */ }
 
         _selfTest = e.Args.Contains("--selftest");
@@ -36,6 +46,12 @@ public partial class App : Application
             _ = Views.ViewsFactory.PhysicsView;
             _ = Views.ViewsFactory.ChemistryView;
         });
+
+        // 启动后检查是否有新版本（发现则弹窗提示，可跳过该版本）
+        Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
+        {
+            UpdateKit.UpdatePrompt.ScheduleAutoCheck(Current.MainWindow);
+        }));
     }
 
     private void OnDispatcherException(object sender, DispatcherUnhandledExceptionEventArgs e)

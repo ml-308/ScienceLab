@@ -4,7 +4,7 @@
 
 ## 下载安装
 
-从 [Releases](https://github.com/ml-308/ScienceLab/releases) 下载 `ScienceLab-Setup-1.1.1.exe`，双击安装即可（每用户安装，无需管理员权限）。
+从 [Releases](https://github.com/ml-308/ScienceLab/releases) 下载 `ScienceLab-Setup-1.2.0.exe`，双击安装即可（每用户安装，无需管理员权限）。
 
 > 运行需要 [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0)（Windows x64）。
 
